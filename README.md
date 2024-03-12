@@ -1,4 +1,5 @@
-# Nu primesc notă pentru că nu am pus titlu și descriere
+Despre Proiect:
+O aplicatie care sa planifice mai multe elemente despre fiecare personaj din joc(campion),precum lane-ul pe care se joaca,categoria de campion,itemele sale,abilitatile etc.
 
 ### Important!
 Aveți voie cu cod generat de modele de limbaj la care nu ați contribuit semnificativ doar în folder-ul `generated`.
