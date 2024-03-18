@@ -233,6 +233,7 @@ int main() {
 
     cout << healthPotion << endl;
     cout << manaPotion << endl;
+    cout << "Description: " << healthPotion.getDescription() << endl;
 
     // Simulam o batalie dintre Shaco si Nocturne
     cout << "\nBattle Simulation:" << endl;
