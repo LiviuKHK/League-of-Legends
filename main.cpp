@@ -17,28 +17,15 @@ public:
     Ability(const string& name,const string& type, int damage, int cooldown)
             : name(name), type(type), damage(damage), cooldown(cooldown) {} // Constructorul parametrizabil
 
-    Ability(const Ability& other) { // Constructorul de copiere
-        name = other.name;
-        type = other.type;
-        damage = other.damage;
-        cooldown = other.cooldown;
-    }
+    Ability(const Ability& other) = default; // Constructorul de copiere implicit
 
-    Ability& operator=(const Ability& other) { // Operatorul =;
-        if (this != &other) {
-            name = other.name;
-            type = other.type;
-            damage = other.damage;
-            cooldown = other.cooldown;
-        }
-        return *this;
-    }
+    Ability& operator=(const Ability& other) = default; // Operatorul de atribuire implicit
 
     ~Ability() { // Destructorul;
         cout << "Destroyed ability: " << name << endl;
     }
 
-    friend ostream& operator<<(ostream& os, const Ability& ability) { // Operatorul <<;
+    friend ostream& operator<<(ostream& os, const Ability& ability) { // Operatorul <<
         os << "Name: " << ability.name << ", Type: " << ability.type << ", Damage: " << ability.damage << ", Cooldown: " << ability.cooldown << endl;
         return os;
     }
@@ -62,22 +49,9 @@ public:
     Champion(const string& name, const string& role, int health)
             : name(name), role(role), health(health) {}
 
-    Champion(const Champion& other) {
-        name = other.name;
-        role = other.role;
-        health = other.health;
-        abilities = other.abilities;
-    }
+    Champion(const Champion& other) = default; // Constructorul de copiere implicit
 
-    Champion& operator=(const Champion& other) {
-        if (this != &other) {
-            name = other.name;
-            role = other.role;
-            health = other.health;
-            abilities = other.abilities;
-        }
-        return *this;
-    }
+    Champion& operator=(const Champion& other) = default; // Operatorul de atribuire implicit
 
     ~Champion() {
         cout << "Destroyed champion: " << name << endl;
@@ -137,18 +111,9 @@ public:
     Item(const string& name,const string& description)
             : name(name), description(description) {}
 
-    Item(const Item& other) {
-        name = other.name;
-        description = other.description;
-    }
+    Item(const Item& other) = default; // Constructorul de copiere implicit
 
-    Item& operator=(const Item& other) {
-        if (this != &other) {
-            name = other.name;
-            description = other.description;
-        }
-        return *this;
-    }
+    Item& operator=(const Item& other) = default; // Operatorul de atribuire implicit
 
     ~Item() {
         cout << "Destroyed item: " << name << endl;
