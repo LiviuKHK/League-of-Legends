@@ -14,7 +14,7 @@ private:
 public:
     Ability() : name(""), type(""), damage(0), cooldown(0) {} // Constructorul default
 
-    Ability(string name, string type, int damage, int cooldown)
+    Ability(const string name,const string type, int damage, int cooldown)
             : name(name), type(type), damage(damage), cooldown(cooldown) {} // Constructorul parametrizabil
 
     Ability(const Ability& other) { // Constructorul de copiere
@@ -59,7 +59,7 @@ private:
 public:
     Champion() : name(""), role(""), health(0) {}
 
-    Champion(string name, string role, int health)
+    Champion(const string name, const string role, int health)
             : name(name), role(role), health(health) {}
 
     Champion(const Champion& other) {
@@ -134,7 +134,7 @@ private:
 public:
     Item() : name(""), description("") {}
 
-    Item(string name, string description)
+    Item(const string name,const string description)
             : name(name), description(description) {}
 
     Item(const Item& other) {
