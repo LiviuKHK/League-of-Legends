@@ -1,132 +1,24 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "Proiectpoo.h"
 
 using namespace std;
 
-class Ability {
-private:
-    string name;
-    string type;
-    int damage;
-    int cooldown;
+// Demonstrare dynamic_cast pentru downcast cu sens
+void downcastDemo(const Champion& champion) {
+    cout << "Downcast demo:" << endl;
 
-public:
-    Ability() : name(""), type(""), damage(0), cooldown(0) {} // Constructorul default
-
-    Ability(const string& name,const string& type, int damage, int cooldown)
-            : name(name), type(type), damage(damage), cooldown(cooldown) {} // Constructorul parametrizabil
-
-    Ability(const Ability& other) = default; // Constructorul de copiere implicit
-
-    Ability& operator=(const Ability& other) = default; // Operatorul de atribuire implicit
-
-    ~Ability() { // Destructorul;
-        cout << "Destroyed ability: " << name << endl;
+    // Convertem pointerul la Champion într-un pointer la Assassin
+    const Assassin* assassin = dynamic_cast<const Assassin*>(&champion);
+    if (assassin) {
+        cout << "Champion is an Assassin." << endl;
+        assassin->useAbility(Ability("Backstab", "Active", 50, 12));
+    } else {
+        cout << "Champion is not an Assassin." << endl;
     }
 
-    friend ostream& operator<<(ostream& os, const Ability& ability) { // Operatorul <<
-        os << "Name: " << ability.name << ", Type: " << ability.type << ", Damage: " << ability.damage << ", Cooldown: " << ability.cooldown << endl;
-        return os;
-    }
-
-    string getName() const { return name; }
-    string getType() const { return type; }
-    int getDamage() const { return damage; }
-    int getCooldown() const { return cooldown; }
-};
-
-class Champion {
-private:
-    string name;
-    string role;
-    int health;
-    vector<Ability> abilities;
-
-public:
-    Champion() : name(""), role(""), health(0) {}
-
-    Champion(const string& name, const string& role, int health)
-            : name(name), role(role), health(health) {}
-
-    Champion(const Champion& other) = default; // Constructorul de copiere implicit
-
-    Champion& operator=(const Champion& other) = default; // Operatorul de atribuire implicit
-
-    ~Champion() {
-        cout << "Destroyed champion: " << name << endl;
-    }
-
-    friend ostream& operator<<(ostream& os, const Champion& champion) {
-        os << "Name: " << champion.name << ", Role: " << champion.role << ", Health: " << champion.health << endl;
-        return os;
-    }
-
-    string getName() const { return name; }
-    string getRole() const { return role; }
-    int getHealth() const { return health; }
-
-    void addAbility(const Ability& ability) {
-        abilities.push_back(ability); // Functie membru care adauga noi abilitati in cadrul campionului;
-    }
-
-    void displayAbilities() const { // Functie membru care afiseaza abilitatie campionului;
-        cout << "Abilities of " << name << ":" << endl;
-        for (const Ability& ability : abilities) {
-            cout << ability;
-        }
-    }
-    int calculateDamage() const {
-        int totalDamage = 0;
-        for (const Ability& ability : abilities) {
-            totalDamage += ability.getDamage();
-        }
-        return totalDamage;
-    }
-    void simulateBattle(const Champion& opponent) const {
-        int damageDealt = calculateDamage();
-        int damageTaken = opponent.calculateDamage();
-
-        cout << name << " attacks " << opponent.name << " and deals " << damageDealt << " damage." << endl;
-        cout << opponent.name << " counterattacks and deals " << damageTaken << " damage." << endl;
-
-        // Simulare pentru scaderea punctelor de viata
-        int remainingHealth = health - damageTaken;
-        int remainingOpponentHealth = opponent.health - damageDealt;
-
-        cout << name << " has " << remainingHealth << " health remaining." << endl;
-        cout << opponent.name << " has " << remainingOpponentHealth << " health remaining." << endl;
-    }
-
-};
-
-class Item {
-private:
-    string name;
-    string description;
-
-public:
-    Item() : name(""), description("") {}
-
-    Item(const string& name,const string& description)
-            : name(name), description(description) {}
-
-    Item(const Item& other) = default; // Constructorul de copiere implicit
-
-    Item& operator=(const Item& other) = default; // Operatorul de atribuire implicit
-
-    ~Item() {
-        cout << "Destroyed item: " << name << endl;
-    }
-
-    friend ostream& operator<<(ostream& os, const Item& item) {
-        os << "Name: " << item.name << ", Description: " << item.description << endl;
-        return os;
-    }
-
-    string getName() const { return name; }
-    string getDescription() const { return description; }
-};
+}
 
 int main() {
     // Creare abilitati
@@ -205,6 +97,59 @@ int main() {
     shaco.simulateBattle(nocturne);
     cout<<endl;
 
+    try {
+        Team team;
+
+        // Creează și adaugă campionul Zed
+        Champion* champion1 = new Assassin("Zed", "Assassin", 100, 20);
+        team.addChampion(champion1);
+
+        // Creează și adaugă campionul Malphite
+        Champion* champion2 = new Tank("Malphite", "Tank", 200, 30);
+        Team::addChampion(champion2);
+
+        // Afiseaza campionii adaugati in echipa
+        team.displayChampions();
+
+    } catch(const std::exception& e) {
+        cout<< "A apărut o excepție: " << e.what() << '\n';
+    }
+
+    // Testare abilități
+    Ability abilit1("Duskbringer", "Active", 90, 10);
+    Ability abilit2("Shroud of Darkness", "Active", 0, 15);
+
+    // Testare iteme
+    Item item1("Health Potion", "Restores health when consumed");
+    Item item2("Mana Potion", "Restores mana when consumed");
+
+    // Testare campioni
+    shared_ptr<Champion> champio1 = make_shared<Champion>("Nocturne", "Assassin", 580);
+    shared_ptr<Champion> champio2 = make_shared<Champion>("Shaco", "Assassin", 550);
+
+    // Testare echipă
+    Team team;
+    Team::addChampion(champio1.get());
+    Team::addChampion(champio2.get());
+
+    cout << "Champions in the team:" << endl;
+    team.displayChampions();
+    cout << endl;
+
+    // Determinăm campionii avantajați
+    vector<string> advantagedChampionNames = Team::determineAdvantagedChampions();
+    for (const auto& name : advantagedChampionNames) {
+        cout << "Advantaged champion: " << name << endl;
+    }
+
+    cout<<endl;
+    Assassin evelynn("Evelynn", "Assassin", 580, 50);
+
+    // Apelăm funcția demo pentru downcast
+    downcastDemo(nocturne);
+    cout<<endl;
+
     return 0;
 
+    return 0;
 }
