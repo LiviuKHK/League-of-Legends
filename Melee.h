@@ -3,12 +3,12 @@
 #include <iostream>
 #include <memory>
 #include <vector>
-#include "Champion.h"
-#include "Ability.h"
+#include <string>
+
+#include "Proiectpoo.h"
 
 using namespace std;
 
-///@class Melee repesents a champion who fights with his hands or guns from a short range.
 class Melee : public Champion {
 private:
     int attackRange;
